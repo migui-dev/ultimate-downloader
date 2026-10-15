@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Ajustes que se guardan entre sesiones en %APPDATA%\UltimateDownloader\ajustes.json -->
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ultimatedownloader.ui.SettingsController"
+      styleClass="raiz" prefWidth="760" prefHeight="700">
+
+    <ScrollPane fitToWidth="true" styleClass="lienzo" VBox.vgrow="ALWAYS">
+        <VBox spacing="16">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Descargas -->
+            <VBox styleClass="grupo" spacing="12">
+                <Label text="%settings.descargas" styleClass="seccion"/>
+                <GridPane hgap="16" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="200"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="%settings.carpeta_por_defecto" styleClass="texto-2"
+                           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <HBox spacing="8" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                          alignment="CENTER_LEFT">
+                        <Label fx:id="etiquetaCarpeta" styleClass="ruta"
+                               HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        <Button text="%comun.cambiar" onAction="#cambiarCarpeta"/>
+                    </HBox>
+
+                    <Label text="%settings.descargas_simultaneas" styleClass="texto-2"
+                           GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Spinner fx:id="selectorSimultaneas" prefWidth="100"
+                             GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="%settings.fragmentos_en_paralelo_por_descarga" styleClass="texto-2"
+                           GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <Spinner fx:id="selectorFragmentos" prefWidth="100"
+                             GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="%comun.nombre_del_archivo" styleClass="texto-2"
+                           GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <HBox spacing="8" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                          alignment="CENTER_LEFT">
+                        <TextField fx:id="campoPlantilla" HBox.hgrow="ALWAYS"/>
+                        <MenuButton fx:id="menuMarcadores" styleClass="boton-icono"/>
+                    </HBox>
+                </GridPane>
+            </VBox>
+
+            <!-- Formatos preferidos -->
+            <VBox styleClass="grupo" spacing="12">
+                <Label text="%settings.formatos_preferidos" styleClass="seccion"/>
+                <GridPane hgap="16" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="200"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="%settings.modo_por_defecto" styleClass="texto-2"
+                           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="comboModo" prefWidth="260"
+                              GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="%settings.contenedor_de_video" styleClass="texto-2"
+                           GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="comboContenedor" prefWidth="260"
+                              GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="%comun.formato_de_audio" styleClass="texto-2"
+                           GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="comboFormatoAudio" prefWidth="260"
+                              GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
+                <CheckBox fx:id="casillaAvisar"
+                          text="%settings.avisar_cuando_el_contenedor_no"/>
+            </VBox>
+
+            <!-- Apariencia -->
+            <VBox styleClass="grupo" spacing="12">
+                <Label text="%settings.apariencia" styleClass="seccion"/>
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <Label text="%settings.tema" styleClass="texto-2" minWidth="200"/>
+                    <HBox styleClass="segmentado" spacing="0">
+                        <ToggleButton fx:id="temaOscuro" text="%settings.oscuro"/>
+                        <ToggleButton fx:id="temaClaro" text="%settings.claro"/>
+                    </HBox>
+                </HBox>
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <Label text="%settings.idioma" styleClass="texto-2" minWidth="200"/>
+                    <ComboBox fx:id="comboIdioma" prefWidth="240"/>
+                    <Label fx:id="etiquetaIdioma" styleClass="texto-3" wrapText="true"/>
+                </HBox>
+            </VBox>
+
+            <!-- Cookies -->
+            <VBox styleClass="grupo" spacing="12">
+                <Label text="%comun.cookies_del_navegador" styleClass="seccion"/>
+                <Label wrapText="true" styleClass="texto-2" text="%settings.hacen_falta_para_los_videos"/>
+                <GridPane hgap="16" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="200"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="%settings.navegador" styleClass="texto-2"
+                           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="comboCookies" prefWidth="260"
+                              GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label fx:id="etiquetaPerfilCookies"
+                           text="%settings.carpeta_del_perfil_opcional" styleClass="texto-2"
+                           GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <HBox spacing="8" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                          alignment="CENTER_LEFT">
+                        <TextField fx:id="campoPerfilCookies" HBox.hgrow="ALWAYS"
+                                   promptText="%settings.solo_si_el_navegador_usa"/>
+                        <Button text="%settings.elegir" onAction="#elegirPerfilCookies"/>
+                    </HBox>
+
+                    <Label text="%settings.comprobacion" styleClass="texto-2"
+                           GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <HBox spacing="8" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                          alignment="CENTER_LEFT">
+                        <Button fx:id="botonProbarCookies" text="%settings.probar"
+                                onAction="#probarCookies"/>
+                        <Label fx:id="etiquetaCookies" styleClass="texto-3" wrapText="true"
+                               HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                    </HBox>
+                </GridPane>
+            </VBox>
+
+            <!-- Componentes -->
+            <VBox styleClass="grupo" spacing="12">
+                <Label text="%settings.componentes" styleClass="seccion"/>
+                <GridPane hgap="16" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="200"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+
+                    <Label text="yt-dlp" styleClass="texto-2"
+                           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label fx:id="etiquetaYtDlp" wrapText="true"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="ffmpeg" styleClass="texto-2"
+                           GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label fx:id="etiquetaFfmpeg" wrapText="true"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                </GridPane>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button fx:id="botonActualizar" text="%settings.actualizar_yt_dlp"
+                            onAction="#actualizarYtDlp"/>
+                    <Button text="%settings.buscar_o_descargar_componentes" onAction="#abrirAsistente"/>
+                    <Button text="%settings.abrir_la_carpeta_del_registro" onAction="#abrirRegistro"/>
+                </HBox>
+                <Label fx:id="etiquetaActualizacion" wrapText="true" styleClass="texto-2"/>
+            </VBox>
+        </VBox>
+    </ScrollPane>
+
+    <HBox styleClass="barra-inferior" spacing="10" alignment="CENTER_RIGHT">
+        <padding>
+            <Insets top="12" right="20" bottom="12" left="20"/>
+        </padding>
+        <Label fx:id="etiquetaRutaAjustes" styleClass="texto-2" HBox.hgrow="ALWAYS"
+               maxWidth="Infinity"/>
+        <Region/>
+        <Button text="%settings.cerrar" onAction="#cerrar" styleClass="boton-primario"/>
+    </HBox>
+</VBox>

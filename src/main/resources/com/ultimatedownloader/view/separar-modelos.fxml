@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.ultimatedownloader.ui.SepararModelosController" spacing="10">
+    <fx:define>
+        <ToggleGroup fx:id="grupoVariosModelos"/>
+    </fx:define>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="%separar_trabajo.modelos" styleClass="seccion"/>
+        <Label fx:id="etiquetaCuentaModelos" styleClass="texto-3"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="campoBuscarModelo" promptText="%separar_trabajo.buscar" prefWidth="200"/>
+        <ComboBox fx:id="comboArquitectura" prefWidth="200"/>
+        <CheckBox fx:id="casillaSoloDescargados" text="%separar_trabajo.solo_descargados"/>
+        <CheckBox fx:id="casillaSoloFavoritos" text="%separar_trabajo.favoritos"/>
+    </HBox>
+
+    <TableView fx:id="tablaModelos" prefHeight="260" styleClass="tabla-formatos">
+        <columns>
+            <TableColumn fx:id="colFavorito" text="" prefWidth="34"/>
+            <TableColumn fx:id="colModelo" text="%separar_trabajo.modelo" prefWidth="300"/>
+            <TableColumn fx:id="colArquitectura" text="%separar_trabajo.arquitectura" prefWidth="150"/>
+            <TableColumn fx:id="colPistas" text="%separar_trabajo.pistas" prefWidth="180"/>
+            <TableColumn fx:id="colSdr" text="%separar_trabajo.sdr" prefWidth="80"/>
+            <TableColumn fx:id="colEstadoModelo" text="%comun.estado" prefWidth="110"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="etiquetaSeleccionModelos" styleClass="texto-3"
+               HBox.hgrow="ALWAYS" maxWidth="Infinity" wrapText="true"/>
+        <ProgressBar fx:id="barraModelo" prefWidth="160" visible="false" managed="false"/>
+        <Label fx:id="etiquetaDescargaModelo" styleClass="dato-apagado"
+               visible="false" managed="false"/>
+        <Button fx:id="botonDescargarModelo" text="%comun.descargar" onAction="#descargarModelo"/>
+        <Button fx:id="botonBorrarModelo" text="%separar_trabajo.borrar_del_disco"
+                onAction="#borrarModelo"/>
+    </HBox>
+
+    <VBox fx:id="cajaVariosModelos" spacing="10" visible="false" managed="false">
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Label text="%separar_trabajo.con_varios_modelos" styleClass="texto-2"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <HBox styleClass="segmentado" spacing="0">
+                <ToggleButton fx:id="variosPorSeparado" text="%separar_trabajo.por_separado"
+                              toggleGroup="$grupoVariosModelos" selected="true"/>
+                <ToggleButton fx:id="variosMezcla" text="%separar_trabajo.mezclarlos"
+                              toggleGroup="$grupoVariosModelos"/>
+            </HBox>
+        </HBox>
+        <HBox fx:id="cajaAlgoritmo" spacing="12" alignment="CENTER_LEFT"
+              visible="false" managed="false">
+            <Label text="%separar_trabajo.forma_de_mezclar" styleClass="texto-2" minWidth="150"/>
+            <ComboBox fx:id="comboAlgoritmo" prefWidth="220"/>
+        </HBox>
+        <Label fx:id="etiquetaVariosModelos" styleClass="texto-3" wrapText="true"/>
+    </VBox>
+</VBox>

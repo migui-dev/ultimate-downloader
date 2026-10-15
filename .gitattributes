@@ -1,0 +1,22 @@
+# Normaliza los saltos de línea para que el repositorio se vea igual en los tres sistemas.
+* text=auto eol=lf
+
+# El guion de Gradle tiene que llegar a Linux y macOS con saltos de Unix: con CRLF, el shell
+# falla con «bad interpreter».
+gradlew text eol=lf
+
+# Los de Windows, al revés.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binarios: que Git no les toque nada.
+*.png binary
+*.ico binary
+*.icns binary
+*.ttf binary
+*.jar binary
+*.zip binary
+
+# El guion de Python es un detalle de un módulo, no parte del lenguaje del proyecto: sin esto
+# GitHub lo cuenta y saca «Python» en la barra de lenguajes por 1,4 KB entre 600 KB de Java.
+src/main/resources/com/ultimatedownloader/python/*.py linguist-detectable=false

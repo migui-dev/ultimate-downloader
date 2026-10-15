@@ -1,0 +1,827 @@
+/*
+ * Los componentes. Aquí no hay ni un color literal: todos salen de tokens.css, y los tamaños
+ * siguen la escala que está documentada ahí.
+ *
+ * La regla de fondo es: menos contenedores. Las secciones se separan con espacio y alguna
+ * línea de 1 px, y solo hay tarjeta donde algo es de verdad un objeto aparte.
+ */
+
+/* ====================================================================== estructura */
+
+.raiz {
+    -fx-background-color: -ud-fondo;
+}
+
+.lienzo,
+.lienzo > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Sin este tope, a 1440p una etiqueta se queda pegada al borde y su control al otro. */
+.columna {
+    -fx-background-color: transparent;
+    -fx-max-width: 1120;
+}
+
+/* La barra de acciones de abajo se alinea con la columna, no con el borde de la ventana. */
+.barra-acciones {
+    -fx-max-width: 1120;
+}
+
+/* --- cabecera de módulo --- */
+
+.cabecera-modulo {
+    -fx-padding: 20 24 12 24;
+}
+
+.titulo-modulo {
+    -fx-font-size: 20px;
+    -fx-font-family: "Inter SemiBold";
+    -fx-text-fill: -ud-texto;
+}
+
+.subtitulo-modulo {
+    -fx-font-size: 13px;
+    -fx-text-fill: -ud-texto-2;
+}
+
+/* --- separadores y secciones --- */
+
+.linea {
+    -fx-background-color: -ud-borde;
+    -fx-min-height: 1px;
+    -fx-pref-height: 1px;
+    -fx-max-height: 1px;
+}
+
+.separator *.line {
+    -fx-border-color: -ud-borde transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.seccion {
+    -fx-font-size: 12px;
+    -fx-font-family: "Inter SemiBold";
+    -fx-text-fill: -ud-texto-2;
+}
+
+.marco-miniatura {
+    -fx-background-color: -ud-superficie-2;
+    -fx-background-radius: 4px;
+    -fx-min-width: 192px;
+    -fx-min-height: 108px;
+    -fx-max-height: 108px;
+}
+
+/* Única tarjeta que queda: la ficha del vídeo, que sí es un objeto aparte. */
+.ficha {
+    -fx-background-color: -ud-superficie-1;
+    -fx-background-radius: 4px;
+    -fx-border-color: -ud-borde;
+    -fx-border-radius: 4px;
+    -fx-padding: 16px;
+}
+
+/* ====================================================================== texto */
+
+.texto-2 {
+    -fx-text-fill: -ud-texto-2;
+}
+
+.texto-3 {
+    -fx-text-fill: -ud-texto-3;
+}
+
+.titulo-video {
+    -fx-font-size: 16px;
+    -fx-font-family: "Inter SemiBold";
+    -fx-text-fill: -ud-texto;
+}
+
+/* Datos numéricos: monoespaciada para que las cifras no bailen entre filas. */
+.dato {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 12px;
+    -fx-text-fill: -ud-texto;
+}
+
+.dato-apagado {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 12px;
+    -fx-text-fill: -ud-texto-3;
+}
+
+.ruta {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 12px;
+    -fx-text-fill: -ud-texto-2;
+}
+
+.mensaje-error {
+    -fx-text-fill: -ud-error;
+    -fx-font-size: 13px;
+}
+
+.mensaje-exito {
+    -fx-text-fill: -ud-exito;
+    -fx-font-size: 13px;
+}
+
+.mensaje-aviso {
+    -fx-text-fill: -ud-aviso;
+    -fx-font-size: 13px;
+}
+
+.aviso {
+    -fx-background-color: -ud-aviso-fondo;
+    -fx-border-color: -ud-borde;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-padding: 10 12 10 12;
+}
+
+/* ====================================================================== iconos */
+
+.icono {
+    -fx-fill: transparent;
+    -fx-stroke: -ud-texto;
+    -fx-stroke-width: 2;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: round;
+}
+
+.icono-apagado {
+    -fx-stroke: -ud-texto-2;
+}
+
+.caja-icono {
+    -fx-background-color: transparent;
+}
+
+/* ====================================================================== botones */
+
+.button,
+.toggle-button,
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 4px;
+    -fx-border-color: -ud-borde;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1px;
+    -fx-text-fill: -ud-texto;
+    -fx-font-size: 13px;
+    -fx-font-family: "Inter Medium";
+    -fx-min-height: 32px;
+    -fx-pref-height: 32px;
+    -fx-padding: 0 12 0 12;
+    -fx-graphic-text-gap: 8;
+    -fx-cursor: hand;
+}
+
+.button:hover,
+.toggle-button:hover,
+.menu-button:hover {
+    -fx-background-color: -ud-superficie-2;
+    -fx-border-color: -ud-borde-fuerte;
+}
+
+.button:pressed,
+.toggle-button:pressed,
+.menu-button:pressed {
+    -fx-background-color: -ud-superficie-3;
+}
+
+.button:focused,
+.toggle-button:focused,
+.menu-button:focused,
+.check-box:focused,
+.combo-box:focused,
+.spinner:focused {
+    -fx-border-color: -ud-texto;
+}
+
+.button:disabled,
+.toggle-button:disabled,
+.menu-button:disabled {
+    -fx-opacity: 1;
+    -fx-text-fill: -ud-texto-3;
+    -fx-border-color: -ud-borde;
+}
+
+.button:disabled .icono {
+    -fx-stroke: -ud-texto-3;
+}
+
+.boton-primario {
+    -fx-background-color: -ud-primario;
+    -fx-text-fill: -ud-sobre-primario;
+    -fx-border-color: -ud-primario;
+    -fx-font-family: "Inter SemiBold";
+    -fx-padding: 0 16 0 16;
+}
+
+.boton-primario .icono {
+    -fx-stroke: -ud-sobre-primario;
+}
+
+.boton-primario:hover {
+    -fx-background-color: -ud-texto-2;
+    -fx-border-color: -ud-texto-2;
+}
+
+.boton-primario:pressed {
+    -fx-background-color: -ud-texto-3;
+    -fx-border-color: -ud-texto-3;
+}
+
+.boton-primario:disabled {
+    -fx-background-color: -ud-superficie-3;
+    -fx-border-color: -ud-superficie-3;
+    -fx-text-fill: -ud-texto-3;
+}
+
+.boton-primario:disabled .icono {
+    -fx-stroke: -ud-texto-3;
+}
+
+.boton-fantasma {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -ud-texto-2;
+}
+
+.boton-fantasma:hover {
+    -fx-background-color: -ud-superficie-2;
+    -fx-border-color: transparent;
+    -fx-text-fill: -ud-texto;
+}
+
+.boton-fantasma .icono {
+    -fx-stroke: -ud-texto-2;
+}
+
+.boton-fantasma:hover .icono {
+    -fx-stroke: -ud-texto;
+}
+
+.boton-icono {
+    -fx-min-width: 32px;
+    -fx-pref-width: 32px;
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.boton-icono:hover {
+    -fx-background-color: -ud-superficie-2;
+    -fx-border-color: transparent;
+}
+
+.boton-icono:focused {
+    -fx-border-color: -ud-texto;
+}
+
+/*
+ * Un menú que solo es un icono no enseña la flecha del desplegable: en 32 px no cabe al lado
+ * del dibujo y acaba montada encima, que es lo que convertía el «+» de los marcadores en un
+ * garabato. El icono y su tooltip ya dicen lo que hace.
+ */
+.menu-button.boton-icono {
+    -fx-alignment: center;
+}
+
+.menu-button.boton-icono > .arrow-button {
+    -fx-padding: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+}
+
+.menu-button.boton-icono > .arrow-button > .arrow {
+    -fx-background-color: transparent;
+    -fx-shape: null;
+    -fx-padding: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+}
+
+.menu-button.boton-icono > .label {
+    -fx-alignment: center;
+    -fx-padding: 0;
+}
+
+/* --- barra lateral --- */
+
+.barra-lateral {
+    -fx-background-color: -ud-superficie-1;
+    -fx-border-color: transparent -ud-borde transparent transparent;
+    -fx-border-width: 0 1 0 0;
+    -fx-min-width: 184px;
+    -fx-pref-width: 184px;
+    -fx-max-width: 184px;
+    -fx-padding: 16 12 16 12;
+}
+
+.marca {
+    -fx-font-size: 13px;
+    -fx-font-family: "Inter SemiBold";
+    -fx-text-fill: -ud-texto;
+    -fx-padding: 0 0 0 10;
+}
+
+.marca-version {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 11px;
+    -fx-text-fill: -ud-texto-3;
+    -fx-padding: 2 0 0 10;
+}
+
+.enlace-lateral {
+    -fx-background-color: transparent;
+    -fx-background-radius: 4px;
+    -fx-border-width: 0 0 0 2;
+    -fx-border-color: transparent;
+    -fx-text-fill: -ud-texto-2;
+    -fx-font-size: 13px;
+    -fx-font-family: "Inter Medium";
+    -fx-padding: 0 10 0 10;
+    -fx-min-height: 34px;
+    -fx-pref-height: 34px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-graphic-text-gap: 10;
+    -fx-cursor: hand;
+}
+
+.enlace-lateral .icono {
+    -fx-stroke: -ud-texto-2;
+}
+
+.enlace-lateral:hover {
+    -fx-background-color: -ud-superficie-2;
+    -fx-text-fill: -ud-texto;
+}
+
+.enlace-lateral:hover .icono {
+    -fx-stroke: -ud-texto;
+}
+
+.enlace-lateral:selected {
+    -fx-background-color: -ud-superficie-2;
+    -fx-border-color: -ud-texto transparent transparent transparent;
+    -fx-border-width: 0 0 0 2;
+    -fx-text-fill: -ud-texto;
+    -fx-font-family: "Inter SemiBold";
+}
+
+.enlace-lateral:selected .icono {
+    -fx-stroke: -ud-texto;
+}
+
+.enlace-lateral:focused {
+    -fx-background-color: -ud-superficie-3;
+}
+
+.insignia {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 11px;
+    -fx-text-fill: -ud-texto-3;
+}
+
+/* --- selector segmentado --- */
+
+.segmentado {
+    -fx-background-color: -ud-superficie-2;
+    -fx-background-radius: 4px;
+    -fx-padding: 2px;
+}
+
+.segmentado > .toggle-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 3px;
+    -fx-min-height: 28px;
+    -fx-pref-height: 28px;
+    -fx-padding: 0 14 0 14;
+    -fx-text-fill: -ud-texto-2;
+    -fx-font-family: "Inter Medium";
+}
+
+.segmentado > .toggle-button:hover {
+    -fx-background-color: -ud-superficie-3;
+    -fx-text-fill: -ud-texto;
+}
+
+.segmentado > .toggle-button:selected {
+    -fx-background-color: -ud-primario;
+    -fx-text-fill: -ud-sobre-primario;
+    -fx-font-family: "Inter SemiBold";
+}
+
+.segmentado > .toggle-button:focused {
+    -fx-border-color: -ud-texto;
+}
+
+/* ====================================================================== campos */
+
+.text-field,
+.text-area,
+.combo-box,
+.spinner {
+    -fx-background-color: -ud-superficie-1;
+    -fx-background-radius: 4px;
+    -fx-border-color: -ud-borde;
+    -fx-border-radius: 4px;
+    -fx-border-width: 1px;
+    -fx-text-fill: -ud-texto;
+    -fx-prompt-text-fill: -ud-texto-3;
+    -fx-font-size: 13px;
+    -fx-min-height: 32px;
+    -fx-pref-height: 32px;
+    -fx-padding: 0 10 0 10;
+}
+
+.text-field:focused,
+.text-area:focused,
+.combo-box:focused {
+    -fx-border-color: -ud-texto;
+    -fx-background-color: -ud-superficie-1;
+}
+
+/* El campo del selector numérico no lleva caja propia: la caja ya es la del selector. */
+.spinner {
+    -fx-padding: 0;
+}
+
+.spinner > .text-field,
+.spinner > .text-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-padding: 0 0 0 10;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+}
+
+.spinner > .increment-arrow-button,
+.spinner > .decrement-arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+    -fx-padding: 0 8 0 4;
+}
+
+.spinner > .increment-arrow-button > .increment-arrow,
+.spinner > .decrement-arrow-button > .decrement-arrow {
+    -fx-background-color: -ud-texto-2;
+    -fx-padding: 3px 4px 3px 4px;
+}
+
+.spinner > .increment-arrow-button:hover > .increment-arrow,
+.spinner > .decrement-arrow-button:hover > .decrement-arrow {
+    -fx-background-color: -ud-texto;
+}
+
+.campo-grande {
+    -fx-font-size: 14px;
+    -fx-min-height: 36px;
+    -fx-pref-height: 36px;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: -ud-texto;
+    -fx-background-color: transparent;
+    -fx-padding: 0 4 0 0;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: -ud-superficie-2;
+    -fx-border-color: -ud-borde;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.combo-box-popup .list-cell:filled:hover,
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: -ud-superficie-3;
+    -fx-text-fill: -ud-texto;
+}
+
+.check-box {
+    -fx-text-fill: -ud-texto;
+    -fx-font-size: 13px;
+}
+
+.check-box > .box {
+    -fx-background-color: transparent;
+    -fx-border-color: -ud-borde-fuerte;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+    -fx-padding: 2px;
+}
+
+.check-box:selected > .box {
+    -fx-background-color: -ud-primario;
+    -fx-border-color: -ud-primario;
+}
+
+.check-box:selected > .box > .mark {
+    -fx-background-color: -ud-sobre-primario;
+}
+
+/* ====================================================================== tablas */
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.table-view > .virtual-flow > .corner,
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -ud-borde transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-size: 32px;
+    -fx-padding: 0 10 0 10;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 12px;
+    -fx-font-family: "Inter Medium";
+    -fx-text-fill: -ud-texto-2;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -ud-borde-sutil transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-cell-size: 36px;
+}
+
+.table-view .table-row-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: -ud-superficie-2;
+}
+
+/* Fila seleccionada: fondo un tono más claro y barra fina de 2 px a la izquierda. */
+.table-view .table-row-cell:selected {
+    -fx-background-color: -ud-superficie-3;
+    -fx-border-color: transparent transparent -ud-borde-sutil -ud-texto;
+    -fx-border-width: 0 0 1 2;
+}
+
+.table-view .table-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -ud-texto;
+    -fx-font-size: 13px;
+    -fx-padding: 0 10 0 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: -ud-texto;
+}
+
+/* Columnas numéricas: monoespaciada y alineadas a la derecha. */
+.table-view .table-cell.columna-dato {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+.table-view .table-cell.vacio {
+    -fx-text-fill: -ud-texto-3;
+}
+
+.table-view .column-header.cabecera-dato .label {
+    -fx-alignment: CENTER_RIGHT;
+}
+
+.fila-mejor .table-cell {
+    -fx-font-family: "Inter SemiBold";
+}
+
+.table-view .placeholder .label {
+    -fx-text-fill: -ud-texto-3;
+    -fx-font-size: 13px;
+}
+
+/* ====================================================================== progreso */
+
+.progress-bar {
+    -fx-min-height: 3px;
+    -fx-pref-height: 3px;
+    -fx-max-height: 3px;
+}
+
+.progress-bar > .track {
+    -fx-background-color: -ud-superficie-3;
+    -fx-background-radius: 2px;
+    -fx-background-insets: 0;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: -ud-texto;
+    -fx-background-radius: 2px;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.progress-indicator {
+    -fx-progress-color: -ud-texto-2;
+}
+
+/* Bloque gris que ocupa el sitio del contenido mientras se analiza. */
+.esqueleto {
+    -fx-background-color: -ud-superficie-2;
+    -fx-background-radius: 4px;
+}
+
+/* ====================================================================== consola */
+
+.consola {
+    -fx-background-color: -ud-fondo;
+    -fx-border-color: -ud-borde transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.texto-consola {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 12px;
+}
+
+.lista-consola,
+.lista-consola > .virtual-flow,
+.lista-consola .list-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.lista-consola .list-cell {
+    -fx-padding: 1 16 1 16;
+}
+
+.lista-consola .list-cell:selected {
+    -fx-background-color: -ud-superficie-2;
+}
+
+.consola-hora {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 12px;
+    -fx-text-fill: -ud-texto-3;
+}
+
+.consola-info {
+    -fx-text-fill: -ud-texto-2;
+}
+
+.consola-aviso {
+    -fx-text-fill: -ud-aviso;
+}
+
+.consola-error {
+    -fx-text-fill: -ud-error;
+}
+
+/* ====================================================================== estados */
+
+.vacio {
+    -fx-text-fill: -ud-texto-2;
+    -fx-font-size: 14px;
+}
+
+.atajo {
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 11px;
+    -fx-text-fill: -ud-texto-3;
+    -fx-border-color: -ud-borde;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+    -fx-background-color: -ud-superficie-2;
+    -fx-padding: 2 6 2 6;
+}
+
+.estado-error {
+    -fx-text-fill: -ud-error;
+    -fx-font-family: "Inter Medium";
+}
+
+.estado-completada {
+    -fx-text-fill: -ud-exito;
+    -fx-font-family: "Inter Medium";
+}
+
+/* ====================================================================== varios */
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar > .thumb {
+    -fx-background-color: -ud-borde-fuerte;
+    -fx-background-radius: 3px;
+}
+
+.scroll-bar > .thumb:hover {
+    -fx-background-color: -ud-texto-3;
+}
+
+.scroll-bar > .increment-button,
+.scroll-bar > .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.tooltip {
+    -fx-background-color: -ud-superficie-3;
+    -fx-border-color: -ud-borde;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-text-fill: -ud-texto;
+    -fx-font-size: 12px;
+    -fx-padding: 6 10 6 10;
+}
+
+.titled-pane {
+    -fx-background-color: transparent;
+}
+
+.titled-pane > .title {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8 0 8 0;
+    -fx-font-size: 13px;
+    -fx-font-family: "Inter Medium";
+    -fx-text-fill: -ud-texto-2;
+}
+
+.titled-pane > .title:hover {
+    -fx-text-fill: -ud-texto;
+}
+
+.titled-pane > .content {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 4 0 8 0;
+}
+
+.dialog-pane {
+    -fx-background-color: -ud-superficie-1;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: -ud-superficie-2;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-font-size: 14px;
+    -fx-font-family: "Inter SemiBold";
+    -fx-text-fill: -ud-texto;
+}
+
+.dialog-pane .content.label {
+    -fx-text-fill: -ud-texto-2;
+}
+
+/* Agrupaciones de los ajustes: no son tarjetas, son secciones con una línea fina encima. */
+.grupo {
+    -fx-background-color: transparent;
+    -fx-border-color: -ud-borde transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 20 0 4 0;
+}
+
+.barra-inferior {
+    -fx-background-color: -ud-fondo;
+    -fx-border-color: -ud-borde transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* Zona de soltar archivos: el borde se marca solo mientras se arrastra algo encima. */
+.soltando .tabla-formatos {
+    -fx-border-color: -ud-texto;
+}

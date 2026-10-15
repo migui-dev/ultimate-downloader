@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  Consola común: la salida en bruto de yt-dlp, ffmpeg y audio-separator. Se abre y se cierra
+  con Ctrl+L y es la misma para toda la aplicación.
+-->
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ultimatedownloader.ui.ConsolaController"
+      styleClass="consola" prefHeight="220" minHeight="140">
+
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="8" right="12" bottom="8" left="16"/>
+        </padding>
+        <Label text="%comun.consola" styleClass="seccion"/>
+        <Label fx:id="etiquetaCuenta" styleClass="dato-apagado"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="filtroTarea" prefWidth="190"/>
+        <TextField fx:id="campoBuscar" promptText="%consola.buscar" prefWidth="180"/>
+        <Button fx:id="botonCopiar" onAction="#copiar" styleClass="boton-icono"/>
+        <Button fx:id="botonGuardar" onAction="#guardar" styleClass="boton-icono"/>
+        <Button fx:id="botonLimpiar" onAction="#limpiar" styleClass="boton-icono"/>
+        <Button fx:id="botonCerrar" onAction="#cerrar" styleClass="boton-icono"/>
+    </HBox>
+
+    <ListView fx:id="listaLineas" VBox.vgrow="ALWAYS" styleClass="lista-consola"/>
+</VBox>

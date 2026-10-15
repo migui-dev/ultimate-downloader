@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Textos del instalador en español.
+
+  jpackage recoge los .wxl que encuentre en la carpeta de recursos, se los pasa a WiX y
+  añade su cultura a la lista: el instalador sale en es-es y lo que falte se rellena con
+  el en-us. Las dos partes de abajo son cosas distintas:
+
+  - Las de «jpackage» son cadenas suyas: sin esto saldrían en inglés sí o sí.
+  - Las de «WixUIExtension» son las del propio asistente, que WiX ya trae traducidas; se
+    repiten aquí para contar lo que hace esta aplicación en vez de dejar el texto genérico.
+    El resto de sus pantallas (botones, títulos, avisos) no hace falta tocarlo.
+-->
+
+<WixLocalization Culture="es-es" Codepage="1252"
+                 xmlns="http://schemas.microsoft.com/wix/2006/localization">
+
+  <!-- ============================================================== jpackage -->
+
+  <String Id="MainFeatureTitle">Ultimate Downloader</String>
+  <String Id="message.install.dir.exist">La carpeta [INSTALLDIR] ya existe. ¿Quieres instalar ahí de todas formas?</String>
+  <String Id="DowngradeErrorMessage">Ya hay instalada una versión más nueva de [ProductName]. Para volver a esta, desinstala antes la que tienes.</String>
+  <String Id="DisallowUpgradeErrorMessage">Ya hay instalada una versión más antigua de [ProductName]. Desinstálala antes de continuar.</String>
+  <String Id="ContextMenuCommandLabel">Abrir con [ProductName]</String>
+
+  <String Id="InstallDirNotEmptyDlg_Title">Instalación de [ProductName]</String>
+
+  <String Id="ShortcutPromptDlg_Title">Instalación de [ProductName]</String>
+  <!-- La casilla del menú Inicio ya no está: esa entrada se crea siempre, que es de donde
+       la saca el buscador de Windows. Ver ShortcutPromptDlg.wxs. -->
+  <String Id="ShortcutPromptDlgTitle">{\WixUI_Font_Title}Acceso directo</String>
+  <String Id="ShortcutPromptDlgBannerBitmap">WixUI_Bmp_Banner</String>
+  <String Id="ShortcutPromptDlgDescription">La aplicación queda en el menú Inicio en cualquier caso.</String>
+  <String Id="ShortcutPromptDlgDesktopShortcutControlLabel">Ponerla también en el escritorio</String>
+
+  <!-- ======================================================== WixUIExtension -->
+
+  <String Id="WelcomeDlgDescription" Overridable="yes">Se va a instalar [ProductName] [ProductVersion] en este equipo: descarga vídeo y audio, convierte entre formatos y separa la voz de la música.
+
+No hace falta tener Java: el paquete lleva el suyo dentro.</String>
+
+  <String Id="InstallDirDlgDescription" Overridable="yes">Se instala solo para tu usuario, así que no hacen falta permisos de administrador.</String>
+
+  <String Id="VerifyReadyDlgInstallText" Overridable="yes">Pulsa Instalar para copiar la aplicación y su entorno de Java. Se puede volver atrás para cambiar la carpeta.</String>
+
+  <String Id="ExitDialogDescription" Overridable="yes">[ProductName] ya está instalado. La primera vez que descargues algo, la aplicación bajará por su cuenta las herramientas que necesita (yt-dlp y FFmpeg).</String>
+
+</WixLocalization>

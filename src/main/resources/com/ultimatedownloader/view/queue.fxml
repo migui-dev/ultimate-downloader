@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Cola común: descargas, conversiones y separaciones, una fila cada una. -->
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ultimatedownloader.ui.QueueController"
+      spacing="16" styleClass="columna">
+    <padding>
+        <Insets top="4" right="24" bottom="24" left="24"/>
+    </padding>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="etiquetaResumenCola" styleClass="texto-2"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="filtroTipo" prefWidth="160"/>
+        <Label text="%queue.simultaneas" styleClass="texto-2"/>
+        <Spinner fx:id="selectorSimultaneas" prefWidth="88"/>
+        <Button fx:id="botonCancelarTodo" text="%queue.cancelar_todo" onAction="#cancelarTodo"/>
+        <Button fx:id="botonLimpiar" text="%queue.quitar_terminadas" onAction="#limpiarTerminadas"/>
+    </HBox>
+
+    <TableView fx:id="tablaCola" VBox.vgrow="ALWAYS" styleClass="tabla-cola">
+        <columns>
+            <TableColumn fx:id="colTitulo" text="%queue.tarea" prefWidth="206" minWidth="120"/>
+            <TableColumn fx:id="colTipo" text="%queue.tipo" prefWidth="104" minWidth="98"/>
+            <TableColumn fx:id="colEstado" text="%comun.estado" prefWidth="150" minWidth="142"/>
+            <TableColumn fx:id="colProgreso" text="%queue.progreso" prefWidth="210" minWidth="200"/>
+            <TableColumn fx:id="colVelocidad" text="%queue.velocidad" prefWidth="98" minWidth="94"/>
+            <TableColumn fx:id="colRestante" text="%queue.restante" prefWidth="92" minWidth="88"/>
+            <TableColumn fx:id="colDestino" text="%queue.carpeta" prefWidth="110" minWidth="90"/>
+            <TableColumn fx:id="colAcciones" text="%queue.acciones" prefWidth="120" minWidth="110"/>
+        </columns>
+    </TableView>
+</VBox>

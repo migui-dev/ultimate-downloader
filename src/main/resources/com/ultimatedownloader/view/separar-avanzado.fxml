@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.ultimatedownloader.ui.SepararAvanzadoController"
+            fx:id="panelAvanzado" text="%comun.opciones_avanzadas" expanded="false"
+            animated="false">
+    <VBox spacing="18">
+        <padding>
+            <Insets top="12" right="4" bottom="4" left="4"/>
+        </padding>
+
+        <Label styleClass="texto-3" wrapText="true"
+               text="%separar_trabajo.lo_que_se_deje_en"/>
+
+        <VBox spacing="10">
+            <Label text="%separar_trabajo.para_todos_los_modelos" styleClass="texto-2"/>
+            <GridPane hgap="16" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="190"/>
+                    <ColumnConstraints minWidth="110"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <Label text="%separar_trabajo.normalizacion" styleClass="texto-2"
+                       GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoNormalizacion" promptText="0,9"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    <tooltip>
+                        <Tooltip text="%separar_trabajo.pico_maximo_al_que_se"/>
+                    </tooltip>
+                </TextField>
+                <Label text="%separar_trabajo.amplificacion" styleClass="texto-2"
+                       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoAmplificacion" promptText="0"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <tooltip>
+                        <Tooltip text="%separar_trabajo.pico_minimo_al_que_se"/>
+                    </tooltip>
+                </TextField>
+                <Label text="%separar_trabajo.trocear_la_entrada_s" styleClass="texto-2"
+                       GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoTrozo" promptText="%separar_trabajo.sin_trocear"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1">
+                    <tooltip>
+                        <Tooltip text="%separar_trabajo.parte_la_pieza_en_trozos"/>
+                    </tooltip>
+                </TextField>
+
+                <CheckBox fx:id="casillaInvertirEspectro"
+                          text="%separar_trabajo.sacar_la_otra_pista_restando"
+                          GridPane.rowIndex="3" GridPane.columnIndex="0"
+                          GridPane.columnSpan="3">
+                    <tooltip>
+                        <Tooltip text="%separar_trabajo.en_vez_de_pedirle_la"/>
+                    </tooltip>
+                </CheckBox>
+                <CheckBox fx:id="casillaAutocast" text="%separar_trabajo.media_precision_autocast"
+                          GridPane.rowIndex="4" GridPane.columnIndex="0"
+                          GridPane.columnSpan="3">
+                    <tooltip>
+                        <Tooltip text="%separar_trabajo.deja_que_pytorch_use_media"/>
+                    </tooltip>
+                </CheckBox>
+                <CheckBox fx:id="casillaFp16" text="%separar_trabajo.float16_nativo"
+                          GridPane.rowIndex="5" GridPane.columnIndex="0"
+                          GridPane.columnSpan="3">
+                    <tooltip>
+                        <Tooltip text="%separar_trabajo.solo_para_combinaciones_de_modelo"/>
+                    </tooltip>
+                </CheckBox>
+                <CheckBox fx:id="casillaTorchCompile" text="%separar_trabajo.compilar_el_modelo"
+                          GridPane.rowIndex="6" GridPane.columnIndex="0"
+                          GridPane.columnSpan="3">
+                    <tooltip>
+                        <Tooltip text="%separar_trabajo.compila_los_bloques_que_se"/>
+                    </tooltip>
+                </CheckBox>
+            </GridPane>
+        </VBox>
+
+        <VBox spacing="10">
+            <Label text="%separar_trabajo.mdx_net" styleClass="texto-2"/>
+            <GridPane hgap="16" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="190"/>
+                    <ColumnConstraints minWidth="110"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <Label text="%separar_trabajo.tamano_de_segmento" styleClass="texto-2"
+                       GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoMdxSegmento" promptText="256"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label styleClass="texto-3" wrapText="true"
+                       text="%separar_trabajo.mas_grande_gasta_mas_memoria"
+                       GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <Label text="%separar_trabajo.solapamiento" styleClass="texto-2"
+                       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoMdxSolape" promptText="0,25"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label styleClass="texto-3" wrapText="true"
+                       text="%separar_trabajo.de_0_001_a_0"
+                       GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <Label text="%separar_trabajo.tamano_de_lote" styleClass="texto-2"
+                       GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoMdxLote" promptText="1"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label text="%separar_trabajo.salto_hop" styleClass="texto-2"
+                       GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoMdxHop" promptText="1024"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <CheckBox fx:id="casillaMdxDenoise" text="%separar_trabajo.quitar_ruido_al_separar"
+                          GridPane.rowIndex="4" GridPane.columnIndex="0"
+                          GridPane.columnSpan="3"/>
+            </GridPane>
+        </VBox>
+
+        <VBox spacing="10">
+            <Label text="%separar_trabajo.vr" styleClass="texto-2"/>
+            <GridPane hgap="16" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="190"/>
+                    <ColumnConstraints minWidth="110"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <Label text="%separar_trabajo.tamano_de_ventana" styleClass="texto-2"
+                       GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoVrVentana" promptText="512"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label styleClass="texto-3" wrapText="true"
+                       text="%separar_trabajo.1024_es_rapido_320_es"
+                       GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <Label text="%separar_trabajo.agresividad" styleClass="texto-2"
+                       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoVrAgresividad" promptText="5"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label styleClass="texto-3" wrapText="true"
+                       text="%separar_trabajo.de_100_a_100_cuanto"
+                       GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <Label text="%separar_trabajo.tamano_de_lote" styleClass="texto-2"
+                       GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoVrLote" promptText="1"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label text="%separar_trabajo.umbral_del_repaso" styleClass="texto-2"
+                       GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoVrUmbral" promptText="0,2"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <CheckBox fx:id="casillaVrTta" text="%separar_trabajo.doble_pasada_tta"
+                          GridPane.rowIndex="4" GridPane.columnIndex="0"
+                          GridPane.columnSpan="3">
+                    <tooltip>
+                        <Tooltip text="%separar_trabajo.separa_dos_veces_con_la"/>
+                    </tooltip>
+                </CheckBox>
+                <CheckBox fx:id="casillaVrAgudos"
+                          text="%separar_trabajo.reconstruir_los_agudos_que_faltan"
+                          GridPane.rowIndex="5" GridPane.columnIndex="0"
+                          GridPane.columnSpan="3"/>
+                <CheckBox fx:id="casillaVrPostProceso"
+                          text="%separar_trabajo.repasar_los_restos_de_voz"
+                          GridPane.rowIndex="6" GridPane.columnIndex="0"
+                          GridPane.columnSpan="3"/>
+            </GridPane>
+        </VBox>
+
+        <VBox spacing="10">
+            <Label text="%separar_trabajo.demucs" styleClass="texto-2"/>
+            <GridPane hgap="16" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="190"/>
+                    <ColumnConstraints minWidth="110"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <Label text="%separar_trabajo.tamano_de_segmento" styleClass="texto-2"
+                       GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoDemucsSegmento" promptText="%separar_trabajo.el_del_modelo"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="%separar_trabajo.pasadas_desplazadas" styleClass="texto-2"
+                       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoDemucsShifts" promptText="2"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label styleClass="texto-3" wrapText="true"
+                       text="%separar_trabajo.mas_pasadas_mejor_resultado_y"
+                       GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <Label text="%separar_trabajo.solapamiento" styleClass="texto-2"
+                       GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoDemucsSolape" promptText="0,25"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            </GridPane>
+        </VBox>
+
+        <VBox spacing="10">
+            <Label text="%separar_trabajo.mdx23c_y_roformer" styleClass="texto-2"/>
+            <GridPane hgap="16" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="190"/>
+                    <ColumnConstraints minWidth="110"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <Label text="%separar_trabajo.tamano_de_segmento" styleClass="texto-2"
+                       GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoMdxcSegmento" promptText="%separar_trabajo.el_del_modelo"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="%separar_trabajo.ventanas_solapadas" styleClass="texto-2"
+                       GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoMdxcSolape" promptText="8"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label styleClass="texto-3" wrapText="true"
+                       text="%separar_trabajo.de_2_a_50_mas"
+                       GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <Label text="%separar_trabajo.tamano_de_lote" styleClass="texto-2"
+                       GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoMdxcLote" promptText="1"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label text="%separar_trabajo.cambio_de_tono" styleClass="texto-2"
+                       GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="campoMdxcTono" promptText="0"
+                           styleClass="campo-dato"
+                           GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <Label styleClass="texto-3" wrapText="true"
+                       text="%separar_trabajo.en_semitonos_a_veces_mejora"
+                       GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                <CheckBox fx:id="casillaMdxcForzarSegmento"
+                          text="%separar_trabajo.usar_mi_tamano_de_segmento"
+                          GridPane.rowIndex="4" GridPane.columnIndex="0"
+                          GridPane.columnSpan="3"/>
+            </GridPane>
+        </VBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button fx:id="botonRestablecerAvanzado" text="%separar_trabajo.dejarlo_todo_por_defecto"
+                    onAction="#restablecerAvanzado"/>
+        </HBox>
+    </VBox>
+</TitledPane>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Registro detallado en la carpeta de datos de la aplicación, dentro de logs/.
+  (la propiedad del sistema la fija Launcher antes de que arranque Logback).
+-->
+<configuration>
+
+    <property name="CARPETA_LOGS" value="${ud.logDir:-logs}"/>
+    <property name="PATRON" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"/>
+
+    <appender name="CONSOLA" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{20} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FICHERO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${CARPETA_LOGS}/aplicacion.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${CARPETA_LOGS}/aplicacion.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${PATRON}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.ultimatedownloader" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLA"/>
+        <appender-ref ref="FICHERO"/>
+    </root>
+
+</configuration>

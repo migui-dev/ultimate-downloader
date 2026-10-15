@@ -1,0 +1,33 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Binarios externos descargados en tiempo de ejecución
+tools/*.exe
+tools/ffmpeg*/
+tools/*.zip
+
+# Registro de ejecución
+logs/
+
+# Resultados del empaquetado
+dist/
+
+# Accesos directos: apuntan a una ruta absoluta de este equipo
+*.lnk
+
+# IDE
+.idea/
+*.iml
+.vscode/
+out/
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Volcados de la máquina virtual cuando algo se cae
+hs_err_pid*.log
+replay_pid*.log

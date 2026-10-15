@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  Armazón de la aplicación: barra lateral a la izquierda, módulo activo en el centro y consola
+  desplegable abajo. La barra lateral sustituye a las pestañas ahora que hay cuatro módulos.
+-->
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ultimatedownloader.ui.ShellController"
+            styleClass="raiz" prefWidth="1240" prefHeight="820">
+
+    <fx:define>
+        <ToggleGroup fx:id="grupoNavegacion"/>
+    </fx:define>
+
+    <left>
+        <VBox styleClass="barra-lateral" spacing="2">
+            <VBox spacing="2">
+                <padding>
+                    <Insets top="4" right="0" bottom="22" left="0"/>
+                </padding>
+                <!-- El nombre no se traduce: una marca es la misma en todos los idiomas. -->
+                <Label text="Ultimate Downloader" styleClass="marca" wrapText="true"/>
+            </VBox>
+
+            <ToggleButton fx:id="navDescargar" text="%comun.descargar" toggleGroup="$grupoNavegacion"
+                          selected="true" styleClass="enlace-lateral" maxWidth="Infinity"/>
+            <ToggleButton fx:id="navConvertir" text="%comun.convertir" toggleGroup="$grupoNavegacion"
+                          styleClass="enlace-lateral" maxWidth="Infinity"/>
+            <ToggleButton fx:id="navSeparar" text="%shell.separar_voz" toggleGroup="$grupoNavegacion"
+                          styleClass="enlace-lateral" maxWidth="Infinity"/>
+            <ToggleButton fx:id="navCola" text="%shell.cola" toggleGroup="$grupoNavegacion"
+                          styleClass="enlace-lateral" maxWidth="Infinity"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- Acciones, no módulos: son botones normales y no entran en el grupo. -->
+            <Button fx:id="botonConsola" text="%comun.consola" onAction="#alternarConsola"
+                    styleClass="enlace-lateral" maxWidth="Infinity"/>
+            <Button fx:id="botonAjustes" text="%shell.ajustes" onAction="#abrirAjustes"
+                    styleClass="enlace-lateral" maxWidth="Infinity"/>
+            <Button fx:id="botonTema" text="%shell.tema_claro" onAction="#alternarTema"
+                    styleClass="enlace-lateral" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+
+    <center>
+        <BorderPane>
+            <top>
+                <HBox styleClass="cabecera-modulo" alignment="BOTTOM_LEFT" spacing="12">
+                    <VBox spacing="2" HBox.hgrow="ALWAYS">
+                        <Label fx:id="tituloModulo" styleClass="titulo-modulo"/>
+                        <Label fx:id="subtituloModulo" styleClass="subtitulo-modulo"/>
+                    </VBox>
+                </HBox>
+            </top>
+
+            <center>
+                <!-- TOP_LEFT: los paneles tienen ancho máximo y centrados flotarían. -->
+                <StackPane fx:id="paneles" alignment="TOP_LEFT">
+                    <fx:include fx:id="descargar" source="descargar.fxml"/>
+
+                    <fx:include fx:id="convertir" source="convertir.fxml"/>
+
+                    <fx:include fx:id="separar" source="separar.fxml"/>
+
+                    <fx:include fx:id="cola" source="queue.fxml"/>
+                </StackPane>
+            </center>
+
+            <bottom>
+                <fx:include fx:id="consola" source="consola.fxml"/>
+            </bottom>
+        </BorderPane>
+    </center>
+</BorderPane>

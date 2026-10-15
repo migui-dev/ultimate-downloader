@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  Asistente que aparece cuando faltan yt-dlp o ffmpeg: los descarga de sus fuentes
+  oficiales a %APPDATA% o deja indicar dónde están si ya se tienen instalados.
+-->
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ultimatedownloader.ui.SetupController"
+      spacing="16" styleClass="raiz" prefWidth="640">
+    <padding>
+        <Insets top="24" right="24" bottom="20" left="24"/>
+    </padding>
+
+    <Label fx:id="etiquetaTitulo" text="%setup.componentes_necesarios" styleClass="titulo-modulo"/>
+    <Label wrapText="true" styleClass="texto-2"
+           text="%setup.esta_aplicacion_usa_yt_dlp"/>
+
+    <VBox spacing="14" styleClass="grupo">
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <VBox spacing="2" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="%comun.yt_dlp" styleClass="seccion"/>
+                <Label fx:id="estadoYtDlp" wrapText="true" styleClass="texto-2"/>
+            </VBox>
+            <Button fx:id="botonRutaYtDlp" text="%setup.indicar_ruta" onAction="#elegirYtDlp"
+                    minWidth="-Infinity"/>
+        </HBox>
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <VBox spacing="2" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="%comun.ffmpeg" styleClass="seccion"/>
+                <Label fx:id="estadoFfmpeg" wrapText="true" styleClass="texto-2"/>
+            </VBox>
+            <Button fx:id="botonRutaFfmpeg" text="%setup.indicar_ruta" onAction="#elegirFfmpeg"
+                    minWidth="-Infinity"/>
+        </HBox>
+    </VBox>
+
+    <VBox spacing="6">
+        <Label fx:id="etiquetaProgreso" styleClass="texto-2"/>
+        <ProgressBar fx:id="barraProgreso" maxWidth="Infinity" progress="0"
+                     visible="false" managed="false"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Hyperlink fx:id="enlaceCarpeta" text="%setup.abrir_la_carpeta_de_componentes"
+                   onAction="#abrirCarpetaHerramientas"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="botonContinuar" text="%setup.continuar_sin_descargar" onAction="#cerrar"
+                minWidth="-Infinity"/>
+        <Button fx:id="botonDescargar" text="%setup.descargar_automaticamente" minWidth="-Infinity"
+                onAction="#descargarTodo" styleClass="boton-primario"/>
+    </HBox>
+</VBox>

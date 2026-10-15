@@ -1,0 +1,182 @@
+#
+# Construye el instalador de cada sistema en su propia máquina: jpackage solo sabe generar el
+# del sistema en el que corre. Se dispara al publicar una etiqueta «v1.2.3» o a mano desde la
+# pestaña Actions.
+#
+name: Instaladores
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  construir:
+    name: ${{ matrix.nombre }}
+    runs-on: ${{ matrix.so }}
+    # El certificado se lee aquí y no en el paso: «secrets» no se puede consultar desde un
+    # «if», pero «env» sí, y así el paso de firmar se salta solo cuando no hay certificado.
+    env:
+      CERTIFICADO_PFX: ${{ secrets.WINDOWS_CERT_PFX }}
+      CERTIFICADO_CLAVE: ${{ secrets.WINDOWS_CERT_PASSWORD }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - so: windows-latest
+            nombre: Windows
+            paquete: "*.exe"
+          # Da igual en qué Ubuntu se construya: las dependencias del .deb se escriben a mano
+          # con alternativas (ver dependenciasDeb en build.gradle.kts), así que el paquete
+          # vale en todas las versiones aunque cambien los nombres entre una y otra.
+          - so: ubuntu-latest
+            nombre: Linux
+            paquete: "*.deb"
+          - so: macos-latest
+            nombre: macOS
+            paquete: "*.dmg"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preparar el JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Preparar Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # jpackage necesita WiX para el .exe y fakeroot para el .deb; en macOS no hace falta nada.
+      # La imagen de Windows ya suele traer WiX, así que solo se instala si no está: pedirlo
+      # con una versión fija falla cuando el runner lleva una más nueva.
+      - name: Herramientas de empaquetado (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $patron = 'C:\Program Files (x86)\WiX Toolset v3*\bin\candle.exe'
+          if (Get-Command candle.exe -ErrorAction SilentlyContinue) {
+            Write-Host 'WiX ya está en el PATH'
+            exit 0
+          }
+          $candle = Get-Item $patron -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $candle) {
+            choco install wixtoolset --no-progress --yes
+            $candle = Get-Item $patron -ErrorAction SilentlyContinue | Select-Object -First 1
+          }
+          if (-not $candle) { throw 'No se ha podido preparar WiX' }
+          Write-Host "WiX encontrado en $($candle.DirectoryName)"
+          Add-Content -Path $env:GITHUB_PATH -Value $candle.DirectoryName
+
+      - name: Herramientas de empaquetado (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y fakeroot binutils
+
+      - name: Instalador
+        run: ./gradlew instalador
+
+      # Firma del instalador de Windows, para que no salte el aviso de SmartScreen. Se salta
+      # mientras no estén los dos secretos del repositorio: WINDOWS_CERT_PFX, con el
+      # certificado en base64, y WINDOWS_CERT_PASSWORD, con su contraseña. Sin ellos el
+      # paquete se publica sin firmar, igual que hasta ahora.
+      - name: Firmar el instalador (Windows)
+        if: runner.os == 'Windows' && env.CERTIFICADO_PFX != ''
+        shell: pwsh
+        run: |
+          $pfx = Join-Path $env:RUNNER_TEMP 'certificado.pfx'
+          [IO.File]::WriteAllBytes($pfx, [Convert]::FromBase64String($env:CERTIFICADO_PFX))
+          $signtool = Get-ChildItem 'C:\Program Files (x86)\Windows Kits\10\bin\*\x64\signtool.exe' |
+            Sort-Object FullName | Select-Object -Last 1
+          if (-not $signtool) { throw 'No se ha encontrado signtool.exe' }
+          # El sellado de tiempo es lo que hace que la firma siga valiendo cuando el
+          # certificado caduque.
+          & $signtool.FullName sign /fd SHA256 /td SHA256 `
+            /tr http://timestamp.digicert.com `
+            /f $pfx /p $env:CERTIFICADO_CLAVE `
+            (Get-ChildItem 'build\dist\*.exe').FullName
+          if ($LASTEXITCODE -ne 0) { throw 'La firma ha fallado' }
+          Remove-Item $pfx -Force
+
+      - name: Guardar el resultado
+        uses: actions/upload-artifact@v4
+        with:
+          name: ultimate-downloader-${{ matrix.nombre }}
+          path: build/dist/${{ matrix.paquete }}
+          if-no-files-found: error
+
+  publicar:
+    name: Publicar la versión
+    needs: construir
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    # Los dos últimos permisos son para la atestación: id-token deja que GitHub pida un
+    # certificado de un solo uso a Sigstore, y attestations, que guarde el resultado.
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: paquetes
+
+      # Las notas se escriben aquí a mano: las generadas listan los commits, y lo que
+      # interesa en esta página es cuál descargar y qué hacer con él. Se montan en un
+      # archivo porque al final llevan las sumas de verificación, que hay que calcular.
+      - name: Preparar las notas de la versión
+        run: |
+          cat > notas.md <<'TEXTO'
+          Descarga el paquete de tu sistema. No hay nada más que instalar: cada uno lleva
+          dentro su propio Java y también yt-dlp y ffmpeg, así que al terminar funciona
+          sin descargar ni configurar nada.
+
+          | Sistema | Archivo | Instalar |
+          |---|---|---|
+          | Windows 10 u 11 | `.exe` | doble clic; se instala para tu usuario |
+          | Linux con glibc | `.deb` | `sudo apt install ./UltimateDownloader-*.deb` |
+          | macOS 11 o posterior | `.dmg` | abrir y arrastrar a Aplicaciones |
+
+          Los paquetes no están firmados, así que la primera vez Windows enseña el aviso
+          de SmartScreen (**Más información → Ejecutar de todas formas**) y macOS pide
+          autorizarla en **Ajustes del Sistema → Privacidad y seguridad → Abrir igualmente**.
+
+          La guía completa está en el
+          [README](https://github.com/migui-dev/ultimate-downloader#instalación).
+
+          ### Comprobar la descarga
+
+          Estas son las sumas SHA-256 de los archivos tal y como han salido de esta
+          compilación. Si la tuya coincide, el archivo es exactamente este y nadie lo ha
+          tocado por el camino: en Windows, `certutil -hashfile <archivo> SHA256`; en Linux
+          y macOS, `shasum -a 256 <archivo>`.
+
+          ```
+          TEXTO
+          # Solo el nombre del archivo, sin la carpeta del artefacto: es el nombre con el
+          # que se descarga de la release y el que el usuario va a comprobar.
+          (cd paquetes && find . -type f | sort | while read -r f; do
+            printf '%s  %s\n' "$(sha256sum "$f" | cut -d' ' -f1)" "$(basename "$f")"
+          done) >> notas.md
+          echo '```' >> notas.md
+          cat notas.md
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: paquetes/**/*
+          body_path: notas.md
+
+      # Firma la procedencia de los tres paquetes: GitHub deja constancia, firmada con
+      # Sigstore, de que esos archivos exactos salieron de este repositorio, de este commit
+      # y de este workflow. Cualquiera lo comprueba con
+      #   gh attestation verify <archivo> --repo migui-dev/ultimate-downloader
+      # Va después de publicar y no antes: si algún día este paso falla, la release ya está
+      # subida y lo único que falta es la prueba, no los instaladores.
+      - name: Firmar la procedencia de los paquetes
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: paquetes/**/*

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Los textos de jpackage en inglés, que son los que se usan cuando falta la traducción.
+
+  Es su MsiInstallerStrings_en.wxl palabra por palabra, con un Overridable="yes" añadido a
+  cada cadena. Sin eso WiX corta con «has been duplicated in multiple locations» en cuanto
+  es-es.wxl repite un identificador: jpackage le pasa los dos ficheros a la vez, el español
+  por delante y el inglés como respaldo, y para WiX dos definiciones de la misma cadena son
+  un conflicto salvo que una de ellas se declare sustituible.
+
+  Así que este archivo está aquí solo para eso. Si alguna vez se quita es-es.wxl, se puede
+  quitar también: jpackage volvería a usar el suyo, que es idéntico salvo por el atributo.
+-->
+
+<WixLocalization Culture="en-us" Codepage="1252"
+                 xmlns="http://schemas.microsoft.com/wix/2006/localization">
+
+  <String Id="message.install.dir.exist" Overridable="yes">The folder [INSTALLDIR] already exist. Would you like to install to that folder anyway?</String>
+  <String Id="MainFeatureTitle" Overridable="yes">Main Feature</String>
+  <String Id="DowngradeErrorMessage" Overridable="yes">A higher version of [ProductName] is already installed. Downgrades disabled. Setup will now exit.</String>
+  <String Id="DisallowUpgradeErrorMessage" Overridable="yes">A lower version of [ProductName] is already installed. Upgrades disabled. Setup will now exit.</String>
+
+  <String Id="ShortcutPromptDlg_Title" Overridable="yes">[ProductName] Setup</String>
+  <String Id="ShortcutPromptDlgTitle" Overridable="yes">{\WixUI_Font_Title}Shortcuts</String>
+  <String Id="ShortcutPromptDlgBannerBitmap" Overridable="yes">WixUI_Bmp_Banner</String>
+  <String Id="ShortcutPromptDlgDescription" Overridable="yes">Select shortcuts to create.</String>
+  <String Id="ShortcutPromptDlgDesktopShortcutControlLabel" Overridable="yes">Create desktop shortcut(s)</String>
+  <String Id="ShortcutPromptDlgStartMenuShortcutControlLabel" Overridable="yes">Create start menu shortcut(s)</String>
+  <String Id="InstallDirNotEmptyDlg_Title" Overridable="yes">[ProductName] Setup</String>
+  <String Id="ContextMenuCommandLabel" Overridable="yes">Open with [ProductName]</String>
+
+</WixLocalization>

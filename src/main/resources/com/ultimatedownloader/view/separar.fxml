@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  Módulo Separar voz: el asistente mientras falte el motor y el panel de trabajo cuando esté.
+  Los dos viven a la vez en el StackPane y solo cambia cuál se ve.
+-->
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.ultimatedownloader.ui.SepararController"
+           styleClass="raiz">
+
+    <fx:define>
+        <ToggleGroup fx:id="grupoAcelerador"/>
+    </fx:define>
+
+    <!-- ============================================================ instalación -->
+    <ScrollPane fx:id="panelInstalacion" fitToWidth="true" styleClass="lienzo">
+        <VBox spacing="24" styleClass="columna">
+            <padding>
+                <Insets top="4" right="24" bottom="24" left="24"/>
+            </padding>
+
+            <VBox spacing="8">
+                <Label text="%separar.el_motor_de_separacion_todavia"
+                       styleClass="seccion"/>
+                <Label wrapText="true" styleClass="texto-2"
+                       text="%separar.separar_la_voz_del_instrumental"/>
+            </VBox>
+
+            <Region styleClass="linea"/>
+
+            <VBox spacing="10">
+                <Label text="%separar.lo_que_hay_en_este" styleClass="seccion"/>
+                <GridPane hgap="16" vgap="8">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="150"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <Label text="%separar.tarjeta_grafica" styleClass="texto-2"
+                           GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label fx:id="etiquetaGpu" wrapText="true"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="%separar.se_instalara" styleClass="texto-2"
+                           GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label fx:id="etiquetaQueSeInstala" wrapText="true"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="%separar.ocupara" styleClass="texto-2"
+                           GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <Label fx:id="etiquetaEspacio" wrapText="true"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="%separar.en_la_carpeta" styleClass="texto-2"
+                           GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <Label fx:id="etiquetaCarpetaEntorno" styleClass="ruta" wrapText="true"
+                           GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                </GridPane>
+            </VBox>
+
+            <VBox spacing="10">
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <Label text="%separar.calcular_con" styleClass="seccion"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <HBox styleClass="segmentado" spacing="0">
+                        <ToggleButton fx:id="opcionCuda" text="%separar.cuda"
+                                      toggleGroup="$grupoAcelerador"/>
+                        <ToggleButton fx:id="opcionDirectMl" text="%separar.directml"
+                                      toggleGroup="$grupoAcelerador"/>
+                        <ToggleButton fx:id="opcionCpu" text="%separar.cpu"
+                                      toggleGroup="$grupoAcelerador"/>
+                    </HBox>
+                </HBox>
+                <Label fx:id="etiquetaAcelerador" wrapText="true" styleClass="texto-3"/>
+            </VBox>
+
+            <VBox fx:id="cajaAvisoInstalacion" styleClass="aviso" spacing="4"
+                  visible="false" managed="false">
+                <Label fx:id="etiquetaAvisoInstalacion" wrapText="true"/>
+            </VBox>
+
+            <VBox fx:id="cajaProgreso" spacing="8" visible="false" managed="false">
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <Label fx:id="etiquetaFase" styleClass="texto-2" HBox.hgrow="ALWAYS"
+                           maxWidth="Infinity"/>
+                    <Label fx:id="etiquetaPorcentaje" styleClass="dato"/>
+                </HBox>
+                <ProgressBar fx:id="barraInstalacion" maxWidth="Infinity" progress="0"
+                             visible="false" managed="false"/>
+                <Label fx:id="etiquetaDetalle" styleClass="texto-consola" wrapText="true"
+                       visible="false" managed="false"/>
+            </VBox>
+
+            <Region styleClass="linea"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button fx:id="botonConsolaInstalacion" text="%separar.ver_la_consola"
+                        onAction="#verConsola"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="botonCancelarInstalacion" text="%separar.cancelar"
+                        onAction="#cancelarInstalacion" visible="false" managed="false"/>
+                <Button fx:id="botonInstalar" text="%separar.instalar_el_motor" onAction="#instalar"
+                        styleClass="boton-primario"/>
+            </HBox>
+        </VBox>
+    </ScrollPane>
+
+    <!-- ============================================================ trabajo -->
+    <fx:include fx:id="trabajo" source="separar-trabajo.fxml" visible="false" managed="false"/>
+</StackPane>

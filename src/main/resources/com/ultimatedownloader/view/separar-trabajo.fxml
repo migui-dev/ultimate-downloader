@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  Panel de trabajo de Separar voz, cuando el motor ya está instalado. Las opciones finas van
+  plegadas para no tapar lo normal.
+-->
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ultimatedownloader.ui.SepararTrabajoController"
+            styleClass="raiz">
+
+    <fx:define>
+        <ToggleGroup fx:id="grupoPistas"/>
+        <ToggleGroup fx:id="grupoVariosModelos"/>
+        <ToggleGroup fx:id="grupoCalidadSeparacion"/>
+    </fx:define>
+
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="lienzo">
+            <VBox fx:id="zonaSoltarSeparar" spacing="24" styleClass="columna">
+                <padding>
+                    <Insets top="4" right="24" bottom="24" left="24"/>
+                </padding>
+
+                <!-- ===== motor ===== -->
+                <VBox spacing="10">
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="%separar_trabajo.motor" styleClass="seccion"/>
+                        <Label fx:id="etiquetaVersionMotor" styleClass="texto-3"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="etiquetaDispositivo" styleClass="texto-2"/>
+                        <Button fx:id="botonComprobarMotor" text="%separar_trabajo.comprobar"
+                                onAction="#comprobarMotor"/>
+                        <Button fx:id="botonBorrarMotor" text="%separar_trabajo.borrar_el_motor"
+                                onAction="#borrarMotor"/>
+                    </HBox>
+                    <VBox fx:id="cajaAvisoDispositivo" styleClass="aviso" spacing="4"
+                          visible="false" managed="false">
+                        <Label fx:id="etiquetaAvisoDispositivo" wrapText="true"/>
+                    </VBox>
+                </VBox>
+
+                <Region styleClass="linea"/>
+
+                <!-- ===== archivo ===== -->
+                <VBox spacing="10">
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="%comun.archivo" styleClass="seccion"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="botonElegirArchivo" text="%separar_trabajo.elegir_archivo"
+                                onAction="#elegirArchivo"/>
+                    </HBox>
+                    <Label fx:id="etiquetaArchivo" styleClass="ruta" wrapText="true"
+                           text="%separar_trabajo.arrastra_aqui_una_cancion_o"/>
+                    <Label fx:id="etiquetaFichaArchivo" styleClass="texto-3" wrapText="true"
+                           visible="false" managed="false"/>
+                </VBox>
+
+                <Region styleClass="linea"/>
+
+                <fx:include fx:id="modelos" source="separar-modelos.fxml"/>
+
+                <Region styleClass="linea"/>
+
+                <!-- ===== qué sacar ===== -->
+                <VBox spacing="14">
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="%separar_trabajo.que_quiero_sacar" styleClass="seccion"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <HBox styleClass="segmentado" spacing="0">
+                            <ToggleButton fx:id="pistaTodas" text="%separar_trabajo.las_dos"
+                                          toggleGroup="$grupoPistas" selected="true"/>
+                            <ToggleButton fx:id="pistaVoz" text="%separar_trabajo.solo_la_voz"
+                                          toggleGroup="$grupoPistas"/>
+                            <ToggleButton fx:id="pistaInstrumental" text="%separar_trabajo.solo_el_instrumental"
+                                          toggleGroup="$grupoPistas"/>
+                        </HBox>
+                    </HBox>
+
+                    <GridPane hgap="16" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="150"/>
+                            <ColumnConstraints minWidth="240"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <Label text="%comun.formato" styleClass="texto-2"
+                               GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="comboFormato" prefWidth="240"
+                                  GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                        <Label fx:id="etiquetaCalidad" GridPane.rowIndex="0"
+                               GridPane.columnIndex="2" styleClass="texto-3" wrapText="true"/>
+
+                        <Label text="%comun.calidad" styleClass="texto-2"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <HBox styleClass="segmentado" spacing="0"
+                              GridPane.rowIndex="1" GridPane.columnIndex="1">
+                            <ToggleButton fx:id="calidadMaxima" text="%comun.maxima"
+                                          toggleGroup="$grupoCalidadSeparacion" selected="true"/>
+                            <ToggleButton fx:id="calidadMedia" text="%comun.media"
+                                          toggleGroup="$grupoCalidadSeparacion"/>
+                            <ToggleButton fx:id="calidadMinima" text="%comun.minima"
+                                          toggleGroup="$grupoCalidadSeparacion"/>
+                        </HBox>
+
+                        <Label text="%separar_trabajo.frecuencia" styleClass="texto-2"
+                               GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="comboFrecuencia" prefWidth="240"
+                                  GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                        <Label fx:id="etiquetaFrecuencia" GridPane.rowIndex="2"
+                               GridPane.columnIndex="2" styleClass="texto-3" wrapText="true"/>
+                    </GridPane>
+
+                    <VBox fx:id="cajaAvisos" styleClass="aviso" spacing="4"
+                          visible="false" managed="false"/>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <CheckBox fx:id="casillaMuestra" text="%separar_trabajo.separar_solo_una_muestra_de"/>
+                        <TextField fx:id="campoMuestraSegundos" text="30" prefWidth="60"
+                                   styleClass="campo-dato"/>
+                        <Label text="%separar_trabajo.segundos_a_partir_del_segundo" styleClass="texto-2"/>
+                        <TextField fx:id="campoMuestraDesde" text="0" prefWidth="60"
+                                   styleClass="campo-dato"/>
+                        <Label fx:id="etiquetaMuestra" styleClass="texto-3" wrapText="true"/>
+                    </HBox>
+
+                    <CheckBox fx:id="casillaReemplazarVideo"
+                              text="%separar_trabajo.dejar_ademas_una_copia_del"/>
+                </VBox>
+
+                <!-- ===== avanzado ===== -->
+                <fx:include fx:id="avanzado" source="separar-avanzado.fxml"/>
+
+                <!-- ===== ajustes guardados ===== -->
+                <VBox spacing="10">
+                    <Label text="%separar_trabajo.ajustes_guardados" styleClass="seccion"/>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <ComboBox fx:id="comboPresets" prefWidth="260"
+                                  promptText="%separar_trabajo.elige_unos_ajustes_guardados"/>
+                        <Button fx:id="botonAplicarPreset" text="%separar_trabajo.aplicar"
+                                onAction="#aplicarPreset"/>
+                        <Button fx:id="botonGuardarPreset" text="%separar_trabajo.guardar_los_de_ahora"
+                                onAction="#guardarPreset"/>
+                        <Button fx:id="botonBorrarPreset" text="%separar_trabajo.borrar" onAction="#borrarPreset"/>
+                    </HBox>
+                </VBox>
+
+                <Region styleClass="linea"/>
+
+                <!-- ===== destino ===== -->
+                <fx:include fx:id="carpetaDestino" source="carpeta-destino.fxml"/>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <VBox>
+            <Region styleClass="linea"/>
+            <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="barra-acciones">
+                <padding>
+                    <Insets top="12" right="24" bottom="12" left="24"/>
+                </padding>
+                <Label fx:id="etiquetaResumen" styleClass="texto-2" HBox.hgrow="ALWAYS"
+                       maxWidth="Infinity" wrapText="true"/>
+                <Button fx:id="botonSeparar" text="%separar_trabajo.separar" onAction="#separar"
+                        styleClass="boton-primario" disable="true"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

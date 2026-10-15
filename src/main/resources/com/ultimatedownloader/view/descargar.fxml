@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+  Módulo Descargar. De arriba abajo: enlace, ficha del vídeo, pistas, formato de salida,
+  carpeta y opciones avanzadas.
+-->
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ultimatedownloader.ui.MainController"
+            styleClass="raiz">
+
+    <fx:define>
+        <ToggleGroup fx:id="grupoModo"/>
+    </fx:define>
+
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="lienzo">
+            <VBox spacing="24" styleClass="columna">
+                <padding>
+                    <Insets top="4" right="24" bottom="24" left="24"/>
+                </padding>
+
+                <!-- Enlace -->
+                <VBox spacing="10">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <TextField fx:id="campoUrl" HBox.hgrow="ALWAYS"
+                                   promptText="%descargar.pega_el_enlace_de_un"
+                                   styleClass="campo-grande"/>
+                        <Button fx:id="botonAnalizar" text="%descargar.analizar" defaultButton="true"
+                                onAction="#analizar" styleClass="boton-primario"/>
+                    </HBox>
+                    <Label fx:id="etiquetaError" styleClass="mensaje-error" wrapText="true"
+                           visible="false" managed="false"/>
+                    <Label fx:id="etiquetaAviso" styleClass="mensaje-aviso" wrapText="true"
+                           visible="false" managed="false"/>
+                </VBox>
+
+                <!-- Estado vacío -->
+                <VBox fx:id="estadoVacio" spacing="12" alignment="CENTER" minHeight="260">
+                    <Label text="%descargar.pega_un_enlace_para_empezar" styleClass="vacio"/>
+                    <HBox spacing="6" alignment="CENTER">
+                        <Label text="%descargar.ctrl_v" styleClass="atajo"/>
+                        <Label text="%descargar.pega_y_analiza" styleClass="texto-3"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Esqueleto mientras analiza -->
+                <VBox fx:id="esqueleto" spacing="12" visible="false" managed="false">
+                    <HBox spacing="16">
+                        <Region styleClass="esqueleto" prefWidth="192" prefHeight="108"/>
+                        <VBox spacing="10" HBox.hgrow="ALWAYS">
+                            <Region styleClass="esqueleto" prefHeight="18" maxWidth="420"/>
+                            <Region styleClass="esqueleto" prefHeight="13" maxWidth="240"/>
+                            <Region styleClass="esqueleto" prefHeight="13" maxWidth="300"/>
+                        </VBox>
+                    </HBox>
+                    <Region styleClass="esqueleto" prefHeight="1" maxWidth="Infinity"/>
+                    <Region styleClass="esqueleto" prefHeight="160" maxWidth="Infinity"/>
+                </VBox>
+
+                <!-- Ficha del vídeo -->
+                <HBox fx:id="tarjetaInfo" styleClass="ficha" spacing="16"
+                      visible="false" managed="false">
+                    <StackPane fx:id="marcoMiniatura" styleClass="marco-miniatura">
+                        <ImageView fx:id="miniatura" fitWidth="192" fitHeight="108"
+                                   preserveRatio="true"/>
+                    </StackPane>
+                    <VBox spacing="6" HBox.hgrow="ALWAYS">
+                        <Label fx:id="etiquetaTitulo" styleClass="titulo-video" wrapText="true"/>
+                        <Label fx:id="etiquetaCanal" styleClass="texto-2"/>
+                        <Label fx:id="etiquetaMetadatos" styleClass="texto-3" wrapText="true"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Pistas -->
+                <VBox fx:id="tarjetaFormatos" spacing="16" visible="false" managed="false">
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="%descargar.que_descargar" styleClass="seccion"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <HBox styleClass="segmentado" spacing="0">
+                            <ToggleButton fx:id="modoVideoAudio" text="%descargar.video_audio"
+                                          toggleGroup="$grupoModo" selected="true"/>
+                            <ToggleButton fx:id="modoSoloVideo" text="%descargar.solo_video"
+                                          toggleGroup="$grupoModo"/>
+                            <ToggleButton fx:id="modoSoloAudio" text="%descargar.solo_audio"
+                                          toggleGroup="$grupoModo"/>
+                        </HBox>
+                    </HBox>
+
+                    <VBox fx:id="cajaVideo" spacing="8">
+                        <HBox spacing="8" alignment="BOTTOM_LEFT">
+                            <Label text="%descargar.video" styleClass="seccion"/>
+                            <Label fx:id="etiquetaCuentaVideo" styleClass="texto-3"/>
+                        </HBox>
+                        <TableView fx:id="tablaVideo" prefHeight="268" styleClass="tabla-formatos">
+                            <columns>
+                                <TableColumn fx:id="colCalidad" text="%comun.calidad" prefWidth="130"/>
+                                <TableColumn fx:id="colCodecVideo" text="%descargar.codec" prefWidth="140"/>
+                                <TableColumn fx:id="colHdr" text="%descargar.rango" prefWidth="90"/>
+                                <TableColumn fx:id="colContenedorVideo" text="%descargar.contenedor"
+                                             prefWidth="130"/>
+                                <TableColumn fx:id="colResolucion" text="%comun.resolucion"
+                                             prefWidth="120"/>
+                                <TableColumn fx:id="colFps" text="%descargar.fps" prefWidth="70"/>
+                                <TableColumn fx:id="colBitrateVideo" text="%descargar.bitrate"
+                                             prefWidth="110"/>
+                                <TableColumn fx:id="colTamanoVideo" text="%comun.tamano" prefWidth="110"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+
+                    <VBox fx:id="cajaAudio" spacing="8">
+                        <HBox spacing="8" alignment="BOTTOM_LEFT">
+                            <Label text="%descargar.audio" styleClass="seccion"/>
+                            <Label fx:id="etiquetaCuentaAudio" styleClass="texto-3"/>
+                        </HBox>
+                        <TableView fx:id="tablaAudio" prefHeight="196" styleClass="tabla-formatos">
+                            <columns>
+                                <TableColumn fx:id="colCodecAudio" text="%descargar.codec" prefWidth="140"/>
+                                <TableColumn fx:id="colIdioma" text="%descargar.idioma_o_pista"
+                                             prefWidth="240"/>
+                                <TableColumn fx:id="colContenedorAudio" text="%descargar.contenedor"
+                                             prefWidth="130"/>
+                                <TableColumn fx:id="colCanales" text="%descargar.canales" prefWidth="110"/>
+                                <TableColumn fx:id="colBitrateAudio" text="%descargar.bitrate"
+                                             prefWidth="110"/>
+                                <TableColumn fx:id="colTamanoAudio" text="%comun.tamano" prefWidth="110"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </VBox>
+
+                <Region fx:id="lineaSalida" styleClass="linea" visible="false" managed="false"/>
+
+                <!-- Formato de salida -->
+                <VBox fx:id="tarjetaSalida" spacing="14" visible="false" managed="false">
+                    <Label text="%descargar.formato_de_salida" styleClass="seccion"/>
+                    <GridPane hgap="16" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="150"/>
+                            <ColumnConstraints minWidth="240"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <Label text="%descargar.contenedor" GridPane.rowIndex="0" GridPane.columnIndex="0"
+                               styleClass="texto-2"/>
+                        <ComboBox fx:id="comboContenedor" GridPane.rowIndex="0"
+                                  GridPane.columnIndex="1" maxWidth="Infinity"/>
+                        <Label fx:id="etiquetaRemux" GridPane.rowIndex="0" GridPane.columnIndex="2"
+                               styleClass="texto-3" wrapText="true"/>
+
+                        <Label fx:id="etiquetaFormatoAudio" text="%comun.formato_de_audio"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="texto-2"/>
+                        <ComboBox fx:id="comboFormatoAudio" GridPane.rowIndex="1"
+                                  GridPane.columnIndex="1" maxWidth="Infinity"/>
+
+                        <Label text="%comun.nombre_del_archivo" GridPane.rowIndex="2"
+                               GridPane.columnIndex="0" styleClass="texto-2"/>
+                        <HBox spacing="8" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                              alignment="CENTER_LEFT">
+                            <TextField fx:id="campoPlantilla" HBox.hgrow="ALWAYS"/>
+                            <MenuButton fx:id="menuMarcadores" styleClass="boton-icono">
+                                <tooltip>
+                                    <Tooltip text="%descargar.insertar_un_marcador_en_el"/>
+                                </tooltip>
+                            </MenuButton>
+                        </HBox>
+                        <Label fx:id="etiquetaNombrePrevisto" GridPane.rowIndex="2"
+                               GridPane.columnIndex="2" styleClass="texto-3" wrapText="true"/>
+                    </GridPane>
+
+                    <HBox fx:id="cajaAvisoCompat" styleClass="aviso" spacing="12"
+                          alignment="CENTER_LEFT" visible="false" managed="false">
+                        <Label fx:id="etiquetaCompat" wrapText="true" HBox.hgrow="ALWAYS"
+                               styleClass="texto-2"/>
+                        <Button fx:id="botonContenedorCompatible" text="%descargar.usar_mkv"
+                                onAction="#usarContenedorCompatible"/>
+                        <Button fx:id="botonRecodificar" text="%descargar.recodificar"
+                                onAction="#activarRecodificacion"/>
+                    </HBox>
+
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <CheckBox fx:id="casillaRecodificar"
+                                  text="%descargar.recodificar_a_h_264_aac"/>
+                    </HBox>
+                </VBox>
+
+                <Region styleClass="linea"/>
+                <fx:include fx:id="carpetaDestino" source="carpeta-destino.fxml"/>
+
+                <Region styleClass="linea"/>
+
+                <!-- Opciones avanzadas -->
+                <TitledPane fx:id="panelAvanzado" text="%comun.opciones_avanzadas" expanded="false">
+                    <VBox spacing="14">
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <CheckBox fx:id="casillaSubtitulos" text="%descargar.descargar_subtitulos"/>
+                            <ComboBox fx:id="comboIdiomaSubtitulos" prefWidth="220"/>
+                            <CheckBox fx:id="casillaSubtitulosAuto" text="%descargar.incluir_automaticos"/>
+                            <CheckBox fx:id="casillaIncrustarSubtitulos"
+                                      text="%descargar.incrustar_en_el_archivo"/>
+                        </HBox>
+                        <HBox spacing="20" alignment="CENTER_LEFT">
+                            <CheckBox fx:id="casillaMiniatura" text="%descargar.incrustar_miniatura"/>
+                            <CheckBox fx:id="casillaMetadatos"
+                                      text="%descargar.incrustar_titulo_canal_y_fecha"/>
+                            <CheckBox fx:id="casillaListaCompleta"
+                                      text="%descargar.descargar_la_lista_completa"/>
+                        </HBox>
+                        <HBox spacing="12" alignment="CENTER_LEFT">
+                            <Label text="%comun.cookies_del_navegador" styleClass="texto-2"/>
+                            <ComboBox fx:id="comboCookies" prefWidth="200"/>
+                            <Label text="%descargar.hace_falta_para_videos_con"
+                                   styleClass="texto-3"/>
+                        </HBox>
+                    </VBox>
+                </TitledPane>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <VBox>
+            <Region styleClass="linea"/>
+            <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="barra-acciones">
+                <padding>
+                    <Insets top="12" right="24" bottom="12" left="24"/>
+                </padding>
+                <Label fx:id="etiquetaResumen" styleClass="texto-2" HBox.hgrow="ALWAYS"
+                       maxWidth="Infinity"/>
+                <Button fx:id="botonAnadirCola" text="%descargar.anadir_a_la_cola" onAction="#anadirACola"
+                        disable="true"/>
+                <Button fx:id="botonDescargar" text="%comun.descargar" onAction="#descargar"
+                        styleClass="boton-primario" disable="true"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>
